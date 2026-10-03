@@ -1,0 +1,5 @@
+packages: []
+engineStrict: true
+# VSIX作成ツールが使う署名用バイナリを配置する。
+allowBuilds:
+  '@vscode/vsce-sign@2.1.0': true

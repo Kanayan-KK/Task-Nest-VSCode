@@ -1,0 +1,25 @@
+#!/bin/sh
+set -e
+
+# GUIがNode.jsのPATHを引き継がない場合も、prepareで記録した実体を使う。
+for path_key in tasknest.nodePath tasknest.pnpmPath; do
+  tool_path=$(git config --local --get "$path_key" || true)
+  if [ -n "$tool_path" ]; then
+    if command -v cygpath >/dev/null 2>&1; then
+      tool_path=$(cygpath -u "$tool_path")
+    fi
+    export PATH="$tool_path:$PATH"
+  fi
+done
+
+if ! command -v node >/dev/null 2>&1 || ! command -v pnpm >/dev/null 2>&1; then
+  echo "Node.js/pnpm not found. Run pnpm run prepare in a terminal with Node.js and pnpm available." >&2
+  exit 1
+fi
+
+# コミット前に全検証を実行し、失敗した場合はコミットを中止する。
+node scripts/check-staged.mjs
+pnpm run all
+
+# 整形などで作業ツリーが変わった場合は、再ステージするまでコミットしない。
+node scripts/check-staged.mjs

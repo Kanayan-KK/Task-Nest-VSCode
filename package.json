@@ -1,0 +1,137 @@
+{
+  "name": "task-nest",
+  "displayName": "Task Nest",
+  "description": "%description%",
+  "version": "0.1.0",
+  "packageManager": "pnpm@12.8.1",
+  "publisher": "kanayan-kk",
+  "icon": "media/icon.png",
+  "homepage": "https://github.com/Kanayan-KK/Task-Nest-VSCode#readme",
+  "bugs": { "url": "https://github.com/Kanayan-KK/Task-Nest-VSCode/issues" },
+  "keywords": ["tasks", "tree", "workspace", "task explorer"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kanayan-KK/Task-Nest-VSCode.git"
+  },
+  "engines": {
+    "node": "24.21.0",
+    "vscode": "^1.100.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/src/extension.cjs",
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false
+    },
+    "virtualWorkspaces": false
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "tasknest.refresh",
+        "title": "%refresh%",
+        "category": "TaskNest",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "tasknest.run",
+        "title": "%run%",
+        "category": "TaskNest",
+        "icon": "$(play)"
+      },
+      {
+        "command": "tasknest.stop",
+        "title": "%stop%",
+        "category": "TaskNest",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "tasknest.restart",
+        "title": "%restart%",
+        "category": "TaskNest",
+        "icon": "$(debug-restart)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "tasknest",
+          "title": "TaskNest",
+          "icon": "media/tasknest.svg"
+        }
+      ]
+    },
+    "views": {
+      "tasknest": [
+        {
+          "id": "tasknest.tasks",
+          "name": "TaskNest",
+          "icon": "media/tasknest.svg"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "tasknest.refresh",
+          "when": "view == tasknest.tasks",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "tasknest.run",
+          "when": "view == tasknest.tasks && viewItem =~ /^task/",
+          "group": "inline@1"
+        },
+        {
+          "command": "tasknest.stop",
+          "when": "view == tasknest.tasks && viewItem == taskRunning",
+          "group": "inline@2"
+        },
+        {
+          "command": "tasknest.restart",
+          "when": "view == tasknest.tasks && viewItem =~ /^task/",
+          "group": "inline@3"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "tasknest.run",
+          "when": "false"
+        },
+        {
+          "command": "tasknest.stop",
+          "when": "false"
+        },
+        {
+          "command": "tasknest.restart",
+          "when": "false"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "prepare": "node scripts/setup-hooks.mjs",
+    "all": "node scripts/check-node.mjs && pnpm run check && pnpm run format && pnpm run lint && pnpm run build && pnpm test && pnpm run test:integration && pnpm run package",
+    "format": "vp fmt src tests scripts vite.config.mjs",
+    "format:check": "vp fmt src tests scripts vite.config.mjs --check",
+    "build": "vp pack",
+    "check": "vp check --no-fmt --no-lint",
+    "test": "vp test",
+    "test:integration": "vp run integration",
+    "package": "vp run vsix",
+    "lint": "vp lint src tests scripts vite.config.mjs --deny-warnings",
+    "lint:fix": "vp run lint --fix"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "@types/vscode": "^1.100.0",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.0.0",
+    "vite-plus": "^1.0.0"
+  }
+}

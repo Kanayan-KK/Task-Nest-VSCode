@@ -1,0 +1,27 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "aggregate",
+      "dependsOn": ["aggregate:child"],
+      "problemMatcher": []
+    },
+    {
+      "label": "aggregate:child",
+      "type": "process",
+      "command": "node",
+      "args": ["-e", "process.exit(0)"],
+      "problemMatcher": []
+    },
+    {
+      "label": "job",
+      "type": "process",
+      "command": "node",
+      "args": ["-e", "setTimeout(() => {}, 15000)"],
+      "problemMatcher": []
+    },
+    { "label": "test", "type": "shell", "command": "echo test", "problemMatcher": [] },
+    { "label": "test:unit", "type": "shell", "command": "echo unit", "problemMatcher": [] },
+    { "label": "npm-configured", "type": "npm", "script": "configured", "problemMatcher": [] }
+  ]
+}

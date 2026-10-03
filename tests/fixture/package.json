@@ -1,0 +1,8 @@
+{
+  "name": "tasknest-test-fixture",
+  "private": true,
+  "scripts": {
+    "configured": "echo configured",
+    "auto-only": "echo hidden"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "folders": [{ "path": "." }],
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      { "label": "common", "type": "shell", "command": "echo common", "problemMatcher": [] },
+    ],
+  },
+}

@@ -1,0 +1,7 @@
+{
+  "description": "Organize and run VS Code tasks in a hierarchical tree.",
+  "refresh": "Refresh Tasks",
+  "run": "Run",
+  "stop": "Stop",
+  "restart": "Restart"
+}

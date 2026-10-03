@@ -1,0 +1,64 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "all",
+      "type": "npm",
+      "script": "all",
+      "detail": "Run type checks, formatting, lint, build, unit tests, integration tests, and VSIX packaging in order",
+      "problemMatcher": []
+    },
+    {
+      "label": "format",
+      "type": "npm",
+      "script": "format",
+      "detail": "Format code with Vite+",
+      "problemMatcher": []
+    },
+    {
+      "label": "package",
+      "type": "npm",
+      "script": "package",
+      "detail": "Create an installable VSIX package",
+      "problemMatcher": []
+    },
+    {
+      "label": "build",
+      "type": "npm",
+      "script": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "test",
+      "type": "npm",
+      "script": "test",
+      "detail": "Run unit tests",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "test:integration",
+      "type": "npm",
+      "script": "test:integration",
+      "detail": "Launch VS Code and verify real tasks",
+      "problemMatcher": []
+    },
+    {
+      "label": "lint",
+      "type": "npm",
+      "script": "lint",
+      "detail": "Lint code with Vite+",
+      "problemMatcher": []
+    },
+    {
+      "label": "check",
+      "type": "npm",
+      "script": "check",
+      "detail": "Check TypeScript types",
+      "problemMatcher": []
+    }
+  ]
+}
