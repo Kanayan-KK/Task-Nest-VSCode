@@ -4,7 +4,11 @@ TaskNest is a simple VS Code extension that organizes tasks into a tree using `:
 
 You can run, stop, and restart tasks from the view.
 
-TaskNest displays its interface in English regardless of the VS Code display language.
+TaskNest requires a trusted workspace and does not support virtual workspaces.
+
+TaskNest displays tasks explicitly configured in the opened workspace folders' `.vscode/tasks.json` files and in the `.code-workspace` file. It excludes automatically detected tasks and user-level tasks. TaskNest loads the list when you first open the view. Use **Refresh Tasks** after changing task settings or workspace folders.
+
+TaskNest does not search nested project folders for task files. To display tasks from multiple projects, add each project folder to a multi-root workspace.
 
 ## Versions
 
@@ -88,12 +92,13 @@ Press F5 to launch the Extension Development Host. You can also select `all`, `f
 
 `pnpm run all` stops when a step fails. Integration tests download a test version of VS Code. To use an existing installation, set the `TASKNEST_VSCODE_PATH` environment variable to the absolute path of its executable.
 
+To test the minimum supported VS Code version, set `TASKNEST_VSCODE_VERSION` to `1.100.0` before running `pnpm run test:integration`. Without this variable, the tests use the latest stable version. `TASKNEST_VSCODE_PATH` takes precedence over the version selection.
+
 ### Pre-commit validation
 
 `pnpm install --frozen-lockfile` enables the pre-commit Git hook. The hook runs `pnpm run all` and aborts the commit if validation fails.
 
 Run `pnpm run all` before staging changes. The hook does not automatically stage formatting changes. Run `pnpm run prepare` again if the installation path of Node.js or pnpm changes.
-The hook compares staged files with the working tree before and after validation. It aborts the commit if unstaged changes or untracked files that Git does not ignore remain. Stage your changes before retrying.
 
 ## Packaging and installation
 
