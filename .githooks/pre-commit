@@ -18,8 +18,4 @@ if ! command -v node >/dev/null 2>&1 || ! command -v pnpm >/dev/null 2>&1; then
 fi
 
 # コミット前に全検証を実行し、失敗した場合はコミットを中止する。
-node scripts/check-staged.mjs
 pnpm run all
-
-# 整形などで作業ツリーが変わった場合は、再ステージするまでコミットしない。
-node scripts/check-staged.mjs

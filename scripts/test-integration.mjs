@@ -21,6 +21,8 @@ if (installed) {
 // 単一フォルダーと共通タスクを持つワークスペースを別々に検証する。
 for (const fixture of ["tests/fixture", "tests/fixture/project.code-workspace"])
   await runTests({
+    // 対応下限も検証できるよう、未指定時のstableとは別にバージョンを指定可能にする。
+    version: process.env.TASKNEST_VSCODE_VERSION ?? "stable",
     extensionDevelopmentPath: installed ? host : resolve("."),
     extensionTestsPath: resolve("dist/tests/integration.cjs"),
     // VS Codeからのコミットで継承されるNode実行モードを、テスト用VS Codeでは解除する。
