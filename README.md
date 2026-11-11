@@ -1,27 +1,16 @@
 # TaskNest
 
-TaskNest is a simple VS Code extension that organizes tasks into a tree using `:` separators in task names.
+TaskNest は、Visual Studio Code（VS Code）のタスクを名前に含まれる `:` で区切り、ツリーにまとめる拡張機能です。タスクの実行、停止、再実行をツリーから操作できます。
 
-You can run, stop, and restart tasks from the view.
+## インストール
 
-TaskNest requires a trusted workspace and does not support virtual workspaces.
+1. [最新リリース](https://github.com/Kanayan-KK/Task-Nest-VSCode/releases/latest)の **Assets** から、拡張子が `.vsix` のファイルをダウンロードします。
+2. VS Code の拡張機能ビューで **…** メニューを開き、**VSIX からのインストール** を選びます。
+3. ダウンロードしたファイルを選択します。
 
-TaskNest displays tasks explicitly configured in the opened workspace folders' `.vscode/tasks.json` files and in the `.code-workspace` file. It excludes automatically detected tasks and user-level tasks. TaskNest loads the list when you first open the view. Use **Refresh Tasks** after changing task settings or workspace folders.
+## 使い方
 
-TaskNest does not search nested project folders for task files. To display tasks from multiple projects, add each project folder to a multi-root workspace.
-
-## Versions
-
-| Component | Version |
-| --- | --- |
-| TaskNest | 0.1.0 |
-| VS Code | 1.100 or later |
-| Node.js for development | 24.21.0 (pinned) |
-| Package manager | pnpm 12.8.1 (pinned) |
-
-## Usage
-
-`.vscode/tasks.json`
+たとえば、ワークスペースの `.vscode/tasks.json` に次のタスクを定義します。
 
 ```json
 {
@@ -49,7 +38,7 @@ TaskNest does not search nested project folders for task files. To display tasks
 }
 ```
 
-TaskNest displays these tasks as follows:
+アクティビティバーから **TaskNest** を開くと、同じ接頭辞を持つタスクが一つのグループにまとまります。
 
 ```text
 build
@@ -59,9 +48,24 @@ test
 └─ unit
 ```
 
-## Development
+TaskNest は、ビューを初めて開いたときに、各ワークスペースフォルダーの `.vscode/tasks.json` と `.code-workspace` ファイルに定義されたタスクを読み込みます。タスクの設定やワークスペースフォルダーを変更したら、ビューの **Refresh Tasks** を押して一覧を更新します。
 
-Run the following commands from the repository root. fnm selects the Node.js version specified in `.node-version`.
+自動検出されたタスクとユーザー単位のタスクは表示対象外です。TaskNest はサブフォルダー内の設定ファイルを検索しません。複数のプロジェクトを一緒に表示するには、各プロジェクトのフォルダーを同じワークスペースに追加します。
+
+## 動作環境
+
+TaskNest は信頼済みのワークスペースで動作します。仮想ワークスペースには対応していません。
+
+| 項目 | バージョン |
+| --- | --- |
+| TaskNest | 0.1.0 |
+| Visual Studio Code | 1.100 以降 |
+| 開発用の Node.js | 24.21.0（固定） |
+| 開発用のパッケージ管理ツール pnpm | 12.8.1（固定） |
+
+## 開発手順
+
+リポジトリのルートで次のコマンドを実行します。fnm（Fast Node Manager）は `.node-version` に指定された Node.js を選択します。
 
 ```powershell
 fnm install
@@ -72,43 +76,45 @@ pnpm install --frozen-lockfile
 pnpm run all
 ```
 
-Press F5 to launch the Extension Development Host. You can also select `all`, `format`, `package`, `build`, `test`, `test:integration`, `lint`, or `check` from VS Code's **Run Task** command.
+VS Code で F5 キーを押すと、拡張機能を試すための別のウィンドウが開きます。**タスクの実行** からは `all`、`format`、`package`、`build`、`test`、`test:integration`、`lint`、`check` を選択できます。
 
-### Commands
+### 開発用コマンド
 
-| Command | Purpose |
+| コマンド | 内容 |
 | --- | --- |
-| `pnpm run all` | Type check → format → lint → build → unit tests → integration tests → VSIX package |
-| `pnpm run check` | Check TypeScript types |
-| `pnpm run format` | Format and overwrite code |
-| `pnpm run format:check` | Check code formatting |
-| `pnpm run lint` | Lint code and treat warnings as failures |
-| `pnpm run lint:fix` | Apply automatic lint fixes |
-| `pnpm run build` | Build the extension |
-| `pnpm test` | Run unit tests |
-| `pnpm run test:integration` | Run integration tests in VS Code |
-| `pnpm run package` | Create an installable VSIX package |
-| `pnpm run prepare` | Configure Git hooks and executable paths for Node.js and pnpm |
+| `pnpm run all` | 型の検査、整形、コードの検査、ビルド、単体テスト、統合テスト、パッケージ作成を順に実行します。 |
+| `pnpm run check` | TypeScript の型を検査します。 |
+| `pnpm run format` | コードを整形してファイルに書き込みます。 |
+| `pnpm run format:check` | コードの書式を確認します。 |
+| `pnpm run lint` | コードを検査します。警告があれば検査は失敗します。 |
+| `pnpm run lint:fix` | 検査で見つかった問題のうち、自動修正できるものを修正します。 |
+| `pnpm run build` | 拡張機能をビルドします。 |
+| `pnpm test` | 単体テストを実行します。 |
+| `pnpm run test:integration` | VS Code 上で統合テストを実行します。 |
+| `pnpm run package` | インストール用の `.vsix` ファイルを作成します。 |
+| `pnpm run prepare` | Git のフックと、フックが使う Node.js と pnpm の実行パスを設定します。 |
 
-`pnpm run all` stops when a step fails. Integration tests download a test version of VS Code. To use an existing installation, set the `TASKNEST_VSCODE_PATH` environment variable to the absolute path of its executable.
+`pnpm run all` は、途中の処理が失敗すると停止します。
 
-To test the minimum supported VS Code version, set `TASKNEST_VSCODE_VERSION` to `1.100.0` before running `pnpm run test:integration`. Without this variable, the tests use the latest stable version. `TASKNEST_VSCODE_PATH` takes precedence over the version selection.
+### 統合テストで使う VS Code
 
-### Pre-commit validation
+統合テストは、既定で最新の安定版をダウンロードして使います。対応する最も古いバージョンで試すには、環境変数 `TASKNEST_VSCODE_VERSION` を `1.100.0` に設定してから `pnpm run test:integration` を実行します。
 
-`pnpm install --frozen-lockfile` enables the pre-commit Git hook. The hook runs `pnpm run all` and aborts the commit if validation fails.
+インストール済みの VS Code を使うには、環境変数 `TASKNEST_VSCODE_PATH` に実行ファイルの絶対パスを設定します。この設定は `TASKNEST_VSCODE_VERSION` より優先されます。
 
-Run `pnpm run all` before staging changes. The hook does not automatically stage formatting changes. Run `pnpm run prepare` again if the installation path of Node.js or pnpm changes.
+### コミット前の確認
 
-## Packaging and installation
+`pnpm install --frozen-lockfile` を実行すると、Git のコミット前フックが有効になります。フックは `pnpm run all` を実行し、検証に失敗するとコミットを中止します。
 
-Run the following commands to create and install the VSIX package. The `package` task in VS Code creates the same file.
+フックは整形後の変更を自動でステージしないため、変更をステージする前に `pnpm run all` を実行します。Node.js または pnpm のインストール先が変わった場合は、`pnpm run prepare` を再実行します。
+
+### 手元でパッケージを作成してインストールする
+
+次のコマンドでパッケージを作成し、VS Code にインストールできます。VS Code の `package` タスクでも同じファイルを作成できます。
 
 ```powershell
 pnpm run package
 code --install-extension .\task-nest-0.1.0.vsix
 ```
 
-You can also install the package using VS Code's **Install from VSIX** command.
-
-[Changelog](CHANGELOG.md) · [MIT license](LICENSE)
+[変更履歴](CHANGELOG.md) · [ライセンス（MIT）](LICENSE)
